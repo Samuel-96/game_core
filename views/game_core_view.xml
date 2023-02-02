@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<odoo> 	<!--ENCARGADO DEL MENÚ DE LA APP-->
+	<record id="test_model_action" model="ir.actions.act_window">
+    		<field name="name">Opción 1</field>
+   		<field name="res_model">gamecore.model</field>
+   		<field name="view_mode">tree,form</field>
+	</record>
+
+	<!--ENCARGADO DE LA VISTA ÁRBOL O VISTA LISTA-->
+	<record id="agencia_model_tree" model="ir.ui.view">
+		<field name="name">agencia.model.tree</field>
+		<field name="model">agencia.model</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="cpostal"/>
+				<field name="habitaciones"/>
+				<field name="precio_inicial" widget="monetary"/>
+			</tree>
+		</field>
+	</record>
+
+	<!--ENCARGADO DE LA VISTA FORMUALARIO-->
+	<record id="agencia_mode_form" model="ir.ui.view">
+		<field name="name">agencia.model.form</field>
+		<field name="model">agencia.model</field>
+		<field name="arch" type="xml">
+			<form string="Formulario">
+			<sheet>
+				<group name="group_top">
+					<group name="group_left">
+						<field name="name"/>
+						<field name="cpostal"/>
+						<field name="fecha_disponible"/>
+						<field name="precio_inicial" widget="monetary"/>
+						<field name="precio_venta" widget="monetary"/>
+						<field name="habitaciones"/>
+					</group>
+					<group name="group_right">
+						<field name="m_utiles"/>
+						<field name="fachadas"/>
+						<field name="garage"/>
+						<field name="jardin" widget="boolean_toggle"/>
+						<field name="m_jardin"/>
+						<field name="orientacion"/>
+						<field name="etiquetas_id" widget="many2many_tags" string="Etiquetas" options="{'color_field':'color'}"/>
+					</group>
+				</group>
+
+				<group>
+					<notebook>
+						<page string="Descripción">
+							<group>
+								<field name="descripcion"/>
+							</group>
+						</page>
+
+						<!--PAGINA NUEVA PARA DATOS DE COMPRA VENTA-->
+						<page string="Datos de Compra - Venta">
+							<group>
+								<field name="comercial_id"/>
+								<field name="comprador_id"/>
+							</group>
+						</page>
+					</notebook>
+				</group>
+			</sheet>
+			</form>
+		</field>
+	</record>
+
+	<!--ENCARGADO DE LA VISTA BUSQUEDA-->
+        <record id="view_agencia_search" model="ir.ui.view">
+            <field name="name">agencia.model.search</field>
+            <field name="model">agencia.model</field>
+            <field name="arch" type="xml">
+                <search string="Vista búsqueda">
+                    <field name="name" />
+                    <field name="cpostal"/>
+                    <separator/>
+                    <filter string="¿Tiene garage?" name="garage" domain="[('garage', '=', True)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Codigo postal" name="cpostal" context="{'group_by':'cpostal'}"/>
+			<filter string="Orientacion" name="orientacion" context="{'group_by':'orientacion'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+<menuitem id="test_menu_root" name="Agencia Inmobiliaria">
+    <menuitem id="test_first_level_menu" name="Submenú">
+        <menuitem id="test_model_menu_action" action="test_model_action"/>
+    </menuitem>
+</menuitem>
+
+<!--	<menuitem id="agencia.menu_root" name="Agencia_Samuel" sequence="2"/>
+   	<menuitem id="agencia.inicio_menu" parent="agencia.menu_root" name="Inmuebles" action="agencia.model_action"/>-->
+</odoo>
